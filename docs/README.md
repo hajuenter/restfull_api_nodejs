@@ -34,8 +34,8 @@ This endpoint is used to register a new user into the system.
 
 | Field    | Type   | Required | Description                        |
 | -------- | ------ | -------- | ---------------------------------- |
-| username | string | Yes      | Must be unique                     |
-| password | string | Yes      | Minimum 6 characters (recommended) |
+| username | string | Yes      | Must be unique, min 3 characters   |
+| password | string | Yes      | Min 6 characters                   |
 | name     | string | Yes      | Full name of the user              |
 
 ### Success response
