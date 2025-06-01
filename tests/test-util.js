@@ -10,6 +10,13 @@ export const removeTestUser = async () => {
 };
 
 export const createTestUser = async () => {
+  await prismaClient.user.deleteMany({
+    where: {
+      username: "Hajuenter",
+    },
+  });
+
+  // Lalu buat user baru
   await prismaClient.user.create({
     data: {
       username: "Hajuenter",
