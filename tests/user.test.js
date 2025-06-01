@@ -1,7 +1,8 @@
 import supertest from "supertest";
 import { web } from "../src/applications/web.js";
 import { logger } from "../src/applications/logging.js";
-import { removeTestUser, createTestUser } from "./test-util.js";
+import { removeTestUser, createTestUser, getTestUser } from "./test-util.js";
+import bcrypt from "bcrypt";
 
 describe("POST /api/users", function () {
   afterEach(async () => {
@@ -146,5 +147,70 @@ describe("POST /api/users/login", function () {
       expect(result.status).toBe(401);
       expect(result.body.errors).toBeDefined();
     });
+  });
+});
+
+describe("PATCH /api/users/current", function () {
+  beforeEach(async () => {
+    await createTestUser();
+  });
+
+  afterEach(async () => {
+    await removeTestUser();
+  });
+
+  it("success can update user", async () => {
+    const result = await supertest(web)
+      .patch("/api/users/current")
+      .set("Authorization", "test")
+      .send({
+        name: "Bahrul",
+        password: "rahasialagi",
+      });
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.username).toBe("Hajuenter");
+    expect(result.body.data.name).toBe("Bahrul");
+
+    const user = await getTestUser();
+    expect(await bcrypt.compare("rahasialagi", user.password)).toBe(true);
+  });
+
+  it("success update user name", async () => {
+    const result = await supertest(web)
+      .patch("/api/users/current")
+      .set("Authorization", "test")
+      .send({
+        name: "Bahrul lagi",
+      });
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.username).toBe("Hajuenter");
+    expect(result.body.data.name).toBe("Bahrul lagi");
+  });
+
+  it("should can update user password", async () => {
+    const result = await supertest(web)
+      .patch("/api/users/current")
+      .set("Authorization", "test")
+      .send({
+        password: "rahasialagiaja",
+      });
+
+    expect(result.status).toBe(200);
+    expect(result.body.data.username).toBe("Hajuenter");
+    expect(result.body.data.name).toBe("ACH. BAHRUL MA'ARIP");
+
+    const user = await getTestUser();
+    expect(await bcrypt.compare("rahasialagiaja", user.password)).toBe(true);
+  });
+
+  it("should reject if request is not valid", async () => {
+    const result = await supertest(web)
+      .patch("/api/users/current")
+      .set("Authorization", "salah")
+      .send({});
+
+    expect(result.status).toBe(401);
   });
 });
