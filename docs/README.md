@@ -78,10 +78,10 @@ This endpoint is used to login.
 }
 ```
 
-| Field    | Type   | Required | Description                      |
-| -------- | ------ | -------- | -------------------------------- |
-| username | string | Yes      | Must be unique, min 3 characters |
-| password | string | Yes      | Min 6 characters                 |
+| Field    | Type   | Required | Description      |
+| -------- | ------ | -------- | ---------------- |
+| username | string | Yes      | Min 3 characters |
+| password | string | Yes      | Min 6 characters |
 
 ### Success response
 
