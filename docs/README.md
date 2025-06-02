@@ -8,19 +8,15 @@
 
 ---
 
-### 🔐 Register User API
+### 🧑‍💻 Register User API
 
 📌 **Endpoint:** `/api/users`  
 📬 **Method:** `POST`  
 🔒 **Authentication:** Not required (Public)
 
----
-
 #### 🧾 Description
 
 This endpoint is used to register a new user into the system.
-
----
 
 #### 📥 Request Body
 
@@ -32,11 +28,11 @@ This endpoint is used to register a new user into the system.
 }
 ```
 
-| Field    | Type   | Required | Description                        |
-| -------- | ------ | -------- | ---------------------------------- |
-| username | string | Yes      | Must be unique, min 3 characters   |
-| password | string | Yes      | Min 6 characters                   |
-| name     | string | Yes      | Full name of the user              |
+| Field    | Type   | Required | Description                      |
+| -------- | ------ | -------- | -------------------------------- |
+| username | string | Yes      | Must be unique, min 3 characters |
+| password | string | Yes      | Min 6 characters                 |
+| name     | string | Yes      | Full name of the user            |
 
 ### Success response
 
@@ -51,7 +47,7 @@ This endpoint is used to register a new user into the system.
 }
 ```
 
-### Error invalid request response
+### Error response
 
 ⚠️ Response: 400 Bad Request
 
@@ -61,12 +57,166 @@ This endpoint is used to register a new user into the system.
 }
 ```
 
-### Error alredy exixst response
+---
 
-🛑 Response: 400 Bad Request
+### 🔐 Login User API
+
+📌 **Endpoint:** `/api/users/login`  
+📬 **Method:** `POST`  
+🔒 **Authentication:** Not required (Public)
+
+#### 🧾 Description
+
+This endpoint is used to login.
+
+#### 📥 Request Body
 
 ```json
 {
-  "errors": "Username alredy exixst"
+  "username": "Hajuenter",
+  "password": "belajar123"
+}
+```
+
+| Field    | Type   | Required | Description                      |
+| -------- | ------ | -------- | -------------------------------- |
+| username | string | Yes      | Must be unique, min 3 characters |
+| password | string | Yes      | Min 6 characters                 |
+
+### Success response
+
+✅ Response: 200 OK
+
+```json
+{
+  "data": {
+    "token": "unique-token"
+  }
+}
+```
+
+### Error response
+
+⚠️ Response: 401 Unauthorized
+
+```json
+{
+  "errors": "Username or password wrong"
+}
+```
+
+---
+
+### 📝 Update User API
+
+📌 **Endpoint:** `/api/users/current`  
+📬 **Method:** `PATCH`  
+🔒 **Authentication:** Token
+
+#### 🧾 Description
+
+This endpoint is used to update a user.
+
+#### 📥 Request Body
+
+```json
+{
+  "name": "Hajuenter Lagi", // optional
+  "password": "new password" // optional
+}
+```
+
+| Field    | Type   | Required | Description           |
+| -------- | ------ | -------- | --------------------- |
+| name     | string | Yes      | Full name of the user |
+| password | string | Yes      | Min 6 characters      |
+
+### Success response
+
+✅ Response: 200 OK
+
+```json
+{
+  "data": {
+    "username": "Hajuenter update",
+    "name": "ACH. BAHRUL MA'ARIP new"
+  }
+}
+```
+
+### Error response
+
+⚠️ Response: 400 Bad Request
+
+```json
+{
+  "errors": "Name length max 255"
+}
+```
+
+---
+
+### 👤 Get User API
+
+📌 **Endpoint:** `/api/users/current`  
+📬 **Method:** `GET`  
+🔒 **Authentication:** Token
+
+#### 🧾 Description
+
+This endpoint is used to get a user.
+
+### Success response
+
+✅ Response: 200 OK
+
+```json
+{
+  "data": {
+    "username": "Hajuenter",
+    "name": "ACH. BAHRUL MA'ARIP"
+  }
+}
+```
+
+### Error response
+
+⚠️ Response: 401 Unauthorized
+
+```json
+{
+  "errors": "Unauthorized"
+}
+```
+
+---
+
+### 🔒 Logout User API
+
+📌 **Endpoint:** `/api/users/logout`  
+📬 **Method:** `DELETE`  
+🔒 **Authentication:** Token
+
+#### 🧾 Description
+
+This endpoint is used to get a user.
+
+### Success response
+
+✅ Response: 200 OK
+
+```json
+{
+  "data": "Success"
+}
+```
+
+### Error response
+
+⚠️ Response: 401 Unauthorized
+
+```json
+{
+  "errors": "Unauthorized"
 }
 ```
