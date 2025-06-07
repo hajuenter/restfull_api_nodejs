@@ -1,30 +1,26 @@
 import { prismaClient } from "../applications/database.js";
+import { ResponseError } from "../errors/response-error.js";
 
 export const authMiddleware = async (req, res, next) => {
-  const token = req.get("Authorization");
-  if (!token) {
-    res
-      .status(401)
-      .json({
-        errors: "Unauthorized",
-      })
-      .end();
-  } else {
+  try {
+    const token = req.get("Authorization");
+    if (!token) {
+      throw new ResponseError(401, "Unauthorized");
+    }
+
     const user = await prismaClient.user.findFirst({
       where: {
         token: token,
       },
     });
+
     if (!user) {
-      res
-        .status(401)
-        .json({
-          errors: "Unauthorized",
-        })
-        .end();
-    } else {
-      req.user = user;
-      next();
+      throw new ResponseError(401, "Unauthorized");
     }
+
+    req.user = user;
+    next();
+  } catch (err) {
+    next(err);
   }
 };
