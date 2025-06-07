@@ -53,7 +53,13 @@ This endpoint is used to register a new user into the system.
 
 ```json
 {
-  "errors": "username is required"
+  "status": 400,
+  "message": "Validation Error",
+  "errors": {
+    "username": ["username is not allowed to be empty"],
+    "password": ["password is not allowed to be empty"],
+    "name": ["name is not allowed to be empty"]
+  }
 }
 ```
 
@@ -101,6 +107,8 @@ This endpoint is used to login.
 
 ```json
 {
+  "status": 401,
+  "message": "Username or password wrong",
   "errors": "Username or password wrong"
 }
 ```
@@ -150,7 +158,11 @@ This endpoint is used to update a user.
 
 ```json
 {
-  "errors": "Name length max 255"
+  "status": 400,
+  "message": "Validation Error",
+  "errors": {
+    "password": ["password length must be at least 6 characters long"]
+  }
 }
 ```
 
@@ -185,6 +197,8 @@ This endpoint is used to get a user.
 
 ```json
 {
+  "status": 401,
+  "message": "Unauthorized",
   "errors": "Unauthorized"
 }
 ```
@@ -217,6 +231,8 @@ This endpoint is used to get a user.
 
 ```json
 {
+  "status": 401,
+  "message": "Unauthorized",
   "errors": "Unauthorized"
 }
 ```
