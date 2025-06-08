@@ -1,7 +1,16 @@
 import userService from "../services/user-service.js";
+import { ResponseError } from "../errors/response-error.js";
 
 const register = async (req, res, next) => {
   try {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      throw new ResponseError(400, "Request body is required");
+    }
+
+    const keys = Object.keys(req.body);
+    if (keys.length === 0) {
+      throw new ResponseError(400, "Request body cannot be empty");
+    }
     const result = await userService.register(req.body);
     res.status(200).json({
       data: result,
@@ -13,6 +22,14 @@ const register = async (req, res, next) => {
 
 const login = async (req, res, next) => {
   try {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      throw new ResponseError(400, "Request body is required");
+    }
+
+    const keys = Object.keys(req.body);
+    if (keys.length === 0) {
+      throw new ResponseError(400, "Request body cannot be empty");
+    }
     const result = await userService.login(req.body);
     res.status(200).json({
       data: result,
@@ -36,6 +53,14 @@ const get = async (req, res, next) => {
 
 const update = async (req, res, next) => {
   try {
+    if (!req.body || Object.keys(req.body).length === 0) {
+      throw new ResponseError(400, "Request body is required");
+    }
+
+    const keys = Object.keys(req.body);
+    if (keys.length === 0) {
+      throw new ResponseError(400, "Request body cannot be empty");
+    }
     const username = req.user.username;
     const request = req.body;
     request.username = username;
